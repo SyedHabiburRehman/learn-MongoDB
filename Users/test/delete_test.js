@@ -10,8 +10,32 @@ describe('Deleting a user', () => {
     });
 
     it('model insatance remove',(done) => {
-        // this removes only specific instance that you select
+        // this removes only specific instance that you select "joe."
         joe.remove() // this will return a promises
+        // then we find name if it is removed or not
+            .then(() => User.findOne({ name: 'Joe'})) // it will return a promises
+            // then we check is there user or not
+            .then((user) => {
+                assert(user === null);
+                done();
+            });  
+    }); 
+
+    it('class method reomve',(done) => {
+        // Remove a bunch of records with some given criteria
+        User.remove({ name: 'Joe'})
+        // then we find name if it is removed or not
+            .then(() => User.findOne({ name: 'Joe'})) // it will return a promises
+            // then we check is there user or not
+            .then((user) => {
+                assert(user === null);
+                done();
+            });  
+
+    });
+
+    it('class method findOneAndRemove',(done) => {
+        User.findOneAndRemove({ name: 'Joe' })
         // then we find name if it is removed or not
             .then(() => User.findOne({ name: 'Joe'})) // it will return a promises
             // then we check is there user or not
@@ -21,16 +45,13 @@ describe('Deleting a user', () => {
             });  
     });
 
-    it('class method reomve',() => {
-        
+    it('class method findByIdAndRemove',(done) => {
+        User.findByIdAndRemove(joe._id)
+        .then(() => User.findOne({ name: 'Joe'})) // it will return a promises
+            // then we check is there user or not
+            .then((user) => {
+                assert(user === null);
+                done();
+            });  
     });
-
-    it('class method findAndRemove',() => {
-        
-    });
-
-    it('class method findByIdAndRemove',() => {
-        
-    })
-
 });
